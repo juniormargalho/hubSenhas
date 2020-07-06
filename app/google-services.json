@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "606493543137",
+    "firebase_url": "https://hubsenhas.firebaseio.com",
+    "project_id": "hubsenhas",
+    "storage_bucket": "hubsenhas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606493543137:android:7d2c7373f3c1635b9045a0",
+        "android_client_info": {
+          "package_name": "com.juniormargalho.projeto2020.hubsenhas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606493543137-830gnqa1u80a2f8e22m2gv8tj8s80kor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juniormargalho.projeto2020.hubsenhas",
+            "certificate_hash": "d5895d4842ae5bf956cd3b554a51adb8186def7a"
+          }
+        },
+        {
+          "client_id": "606493543137-i2d56mfrvvms4r03l391khnl27lcd53j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHXqJYSm91XPWTs9FOs_yJ_EPG6Twc1yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606493543137-i2d56mfrvvms4r03l391khnl27lcd53j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
