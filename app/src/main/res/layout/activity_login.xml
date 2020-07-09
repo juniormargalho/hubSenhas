@@ -21,23 +21,23 @@
         android:id="@+id/editLoginEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="E-mail"
         android:background="@drawable/bg_edit_text"
-        android:padding="16dp"
+        android:ems="10"
+        android:hint="Digite seu e-mail"
         android:inputType="textEmailAddress"
+        android:padding="16dp"
         android:textColorHint="@color/azulClaro" />
 
     <EditText
         android:id="@+id/editLoginSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Senha"
-        android:background="@drawable/bg_edit_text"
-        android:padding="16dp"
-        android:inputType="textPassword"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_edit_text"
+        android:ems="10"
+        android:hint="Digite sua senha"
+        android:inputType="textPassword"
+        android:padding="16dp"
         android:textColorHint="@color/azulClaro" />
 
     <Button
@@ -60,6 +60,7 @@
             android:id="@+id/textLoginCadastrese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="cadastrese"
             android:text="Cadastre-se"
             android:textColor="@color/colorPrimary"
             android:textIsSelectable="false"
