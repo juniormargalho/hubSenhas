@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editLoginEmail, editLoginSenha;
@@ -48,9 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(LoginActivity.this, "Bem vindo(a), fulano", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    abrirMainActivity();
                                 }else {
                                     Toast.makeText(LoginActivity.this, "Erro ao fazer login: " + task.getException(), Toast.LENGTH_SHORT).show();
                                 }
@@ -67,12 +66,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void abrirMainActivity(){
+        String usuarioAtual = ConfiguracaoUsuario.getUsuarioAtual().getDisplayName();
+        Toast.makeText(LoginActivity.this, "Bem vindo(a), " + usuarioAtual, Toast.LENGTH_SHORT).show();
+        finish();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
+
     private void verificaUsuarioLogado(){
-        FirebaseUser usuarioAtual = autenticacao.getCurrentUser();
+        FirebaseUser usuarioAtual = ConfiguracaoUsuario.getUsuarioAtual();
 
         if(usuarioAtual != null){
-            finish();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            abrirMainActivity();
         }
     }
 

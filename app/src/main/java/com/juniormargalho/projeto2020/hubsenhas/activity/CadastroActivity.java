@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 
 public class CadastroActivity extends AppCompatActivity {
     private EditText editCadastroNome, editCadastroEmail, editCadastroEmailConfirmar, editCadastroSenha, editCadastroSenhaConfirmar;
@@ -36,7 +37,7 @@ public class CadastroActivity extends AppCompatActivity {
         buttonCadastroCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nome = editCadastroNome.getText().toString();
+                final String nome = editCadastroNome.getText().toString();
                 String email = editCadastroEmail.getText().toString();
                 String confirmarEmail = editCadastroEmailConfirmar.getText().toString();
                 String senha = editCadastroSenha.getText().toString();
@@ -54,7 +55,8 @@ public class CadastroActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                                                        ConfiguracaoUsuario.setNomeProfile(nome);
+                                                        Toast.makeText(CadastroActivity.this, "Bem vindo(a), " + nome, Toast.LENGTH_SHORT).show();
                                                         finish();
                                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                                     }else {
