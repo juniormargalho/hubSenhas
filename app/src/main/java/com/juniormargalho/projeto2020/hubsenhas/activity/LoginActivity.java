@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
 
         inicializar();
 
@@ -84,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
     public void cadastrese(View view){
         Intent i = new Intent(LoginActivity.this, CadastroActivity.class);
         startActivity(i);
-        finish();
     }
 
     private void inicializar(){

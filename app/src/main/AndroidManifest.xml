@@ -9,11 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.NovaSenhaActivity"></activity>
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.CadastroActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CadastroActivity"
+            android:parentActivityName=".activity.LoginActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>

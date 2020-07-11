@@ -17,9 +17,12 @@ public class ConfiguracaoUsuario {
     }
 
     public static void setNomeProfile(String nome){
-        FirebaseUser usuarioAtual = getUsuarioAtual();
-        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(nome).build();
-        usuarioAtual.updateProfile(profile);
+        try{
+            FirebaseUser usuarioAtual = getUsuarioAtual();
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(nome).build();
+            usuarioAtual.updateProfile(profile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
 }
