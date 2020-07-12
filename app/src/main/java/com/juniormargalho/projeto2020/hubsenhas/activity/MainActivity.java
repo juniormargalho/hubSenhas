@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,16 +28,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Hub Senhas");
+        toolbar.setTitle("HUB SENHAS");
         setSupportActionBar(toolbar);
 
         inicializar();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fabNovo);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                novaSenha();
             }
         });
     }
@@ -50,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private void deslogarUsuario(){
         try {
             autenticacao.signOut();
+            finish();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
