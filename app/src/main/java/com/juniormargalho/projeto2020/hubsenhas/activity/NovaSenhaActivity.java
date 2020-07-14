@@ -1,9 +1,5 @@
 package com.juniormargalho.projeto2020.hubsenhas.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.juniormargalho.projeto2020.hubsenhas.R;
+import com.juniormargalho.projeto2020.hubsenhas.helper.GeradorSenha;
 
 public class NovaSenhaActivity extends AppCompatActivity {
     private EditText editNovaSenhaTitulo, editNovaSenhaLogin, editNovaSenhaSenha, editNovaSenhaObs;
@@ -32,6 +33,23 @@ public class NovaSenhaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         inicializar();
+
+        buttonNovaSenhaGerar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(radioNovaSenha1.isChecked()){
+                    editNovaSenhaSenha.setText(GeradorSenha.getSenha("1"));
+                }else if (radioNovaSenha2.isChecked()){
+                    editNovaSenhaSenha.setText(GeradorSenha.getSenha("2"));
+                }else if (radioNovaSenha3.isChecked()) {
+                    editNovaSenhaSenha.setText(GeradorSenha.getSenha("3"));
+                }else if (radioNovaSenha4.isChecked()) {
+                    editNovaSenhaSenha.setText(GeradorSenha.getSenha("4"));
+                }else if (radioNovaSenha5.isChecked()) {
+                    editNovaSenhaSenha.setText(GeradorSenha.getSenha("5"));
+                }
+            }
+        });
     }
 
     @Override
