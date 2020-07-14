@@ -34,7 +34,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_edit_text"
                 android:ems="10"
-                android:hint="Titulo"
+                android:hint="Digite o titulo"
                 android:inputType="textPersonName"
                 android:padding="16dp"
                 android:textColorHint="@color/azulClaro" />
@@ -46,7 +46,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_edit_text"
                 android:ems="10"
-                android:hint="Login"
+                android:hint="Digite o login"
                 android:inputType="textEmailAddress"
                 android:padding="16dp"
                 android:textColorHint="@color/azulClaro" />
@@ -176,7 +176,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_edit_text"
                 android:ems="10"
-                android:hint="Senha"
+                android:hint="Digite ou gere a senha"
                 android:inputType="textPersonName"
                 android:padding="16dp"
                 android:textColorHint="@color/azulClaro" />
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edit_text"
                 android:ems="10"
-                android:hint="Observação"
+                android:hint="Observação (opcional)"
                 android:inputType="textPersonName"
                 android:padding="16dp"
                 android:textColorHint="@color/azulClaro" />

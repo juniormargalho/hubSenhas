@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,8 +53,37 @@ public class NovaSenhaActivity extends AppCompatActivity {
         });
     }
 
+    private void salvar(){
+        String titulo = editNovaSenhaTitulo.getText().toString();
+        String login = editNovaSenhaLogin.getText().toString();
+        String senha = editNovaSenhaSenha.getText().toString();
+
+        if( !titulo.isEmpty() ){
+            if( !login.isEmpty() ){
+                if( !senha.isEmpty() ){
+
+
+
+                }else {
+                    Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(NovaSenhaActivity.this, "Preencha o login, por favor!", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(NovaSenhaActivity.this, "Preencha o titulo, por favor!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menuSalvar :
+                salvar();
+                finish();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
