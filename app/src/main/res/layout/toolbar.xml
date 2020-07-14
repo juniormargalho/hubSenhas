@@ -2,22 +2,20 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         app:titleTextColor="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:elevation="10dp"
         android:theme="@style/Toolbar"/>
     
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/materialSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    
+
 </FrameLayout>

@@ -17,9 +17,11 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
+    private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +39,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                novaSenha();
+                startActivity(new Intent(MainActivity.this, NovaSenhaActivity.class));
             }
         });
-    }
-
-    private void novaSenha(){
-        startActivity(new Intent(MainActivity.this, NovaSenhaActivity.class));
     }
 
     private void deslogarUsuario(){
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menuNovo :
-                novaSenha();
+            case R.id.menuConfiguracoes :
+
                 break;
             case R.id.menuSair :
                 deslogarUsuario();
@@ -74,10 +72,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.menuPesquisa);
+        searchView.setMenuItem(item);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     private void inicializar(){
         autenticacao = ConfiguracaoFirebase.getReferenciaAutenticacao();
+        searchView = findViewById(R.id.materialSearchView);
     }
 }
