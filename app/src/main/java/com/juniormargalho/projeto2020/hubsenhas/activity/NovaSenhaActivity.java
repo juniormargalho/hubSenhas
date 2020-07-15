@@ -15,12 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.juniormargalho.projeto2020.hubsenhas.R;
+import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 import com.juniormargalho.projeto2020.hubsenhas.helper.GeradorSenha;
+import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 
 public class NovaSenhaActivity extends AppCompatActivity {
     private EditText editNovaSenhaTitulo, editNovaSenhaLogin, editNovaSenhaSenha, editNovaSenhaObs;
     private RadioButton radioNovaSenha1, radioNovaSenha2, radioNovaSenha3, radioNovaSenha4, radioNovaSenha5;
     private Button buttonNovaSenhaGerar;
+    private String idUsuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +61,23 @@ public class NovaSenhaActivity extends AppCompatActivity {
         String titulo = editNovaSenhaTitulo.getText().toString();
         String login = editNovaSenhaLogin.getText().toString();
         String senha = editNovaSenhaSenha.getText().toString();
+        String obs = editNovaSenhaObs.getText().toString();
 
         if( !titulo.isEmpty() ){
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
-
+                    Senha novaSenha =new Senha();
+                    novaSenha.setIdUsuario(idUsuarioLogado);
+                    novaSenha.setTitulo(titulo);
+                    novaSenha.setLogin(login);
+                    novaSenha.setSenha(senha);
+                    if( !obs.isEmpty() ){
+                        novaSenha.setObs(obs);
+                    }
+                    novaSenha.salvar();
+                    Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
+                    finish();
 
                 }else {
                     Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
@@ -81,7 +96,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menuSalvar :
                 salvar();
-                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -105,5 +119,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
         radioNovaSenha4 = findViewById(R.id.radioNovaSenha4);
         radioNovaSenha5 = findViewById(R.id.radioNovaSenha5);
         buttonNovaSenhaGerar = findViewById(R.id.buttonNovaSenhaGerar);
+
+        idUsuarioLogado = ConfiguracaoUsuario.getIdUsuarioAutenticado();
     }
 }
