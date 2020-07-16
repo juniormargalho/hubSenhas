@@ -8,6 +8,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +18,20 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.juniormargalho.projeto2020.hubsenhas.R;
+import com.juniormargalho.projeto2020.hubsenhas.adapter.SenhaAdapter;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
     private MaterialSearchView searchView;
+    private RecyclerView recyclerViewSenhas;
+    private SenhaAdapter senhaAdapter;
+    private List<Senha> listaSenhas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, NovaSenhaActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        carregarListaSenhas();
+        super.onStart();
+    }
+
+    private void carregarListaSenhas(){
+        recyclerViewSenhas.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSenhas.setHasFixedSize(true);
+        senhaAdapter = new SenhaAdapter(listaSenhas, this);
+        recyclerViewSenhas.setAdapter(senhaAdapter);
     }
 
     private void deslogarUsuario(){
@@ -82,5 +105,6 @@ public class MainActivity extends AppCompatActivity {
     private void inicializar(){
         autenticacao = ConfiguracaoFirebase.getReferenciaAutenticacao();
         searchView = findViewById(R.id.materialSearchView);
+        recyclerViewSenhas = findViewById(R.id.recyclerViewSenhas);
     }
 }

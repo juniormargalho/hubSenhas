@@ -3,7 +3,9 @@ package com.juniormargalho.projeto2020.hubsenhas.model;
 import com.google.firebase.database.DatabaseReference;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
 
-public class Senha {
+import java.io.Serializable;
+
+public class Senha implements Serializable {
     private String idUsuario, idSenha;
     private String titulo, login, senha, obs;
 
