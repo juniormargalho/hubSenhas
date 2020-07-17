@@ -1,5 +1,7 @@
 package com.juniormargalho.projeto2020.hubsenhas.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,11 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.adapter.SenhaAdapter;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
+import com.juniormargalho.projeto2020.hubsenhas.helper.RecyclerItemClickListener;
 import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -45,6 +49,38 @@ public class MainActivity extends AppCompatActivity {
 
         inicializar();
 
+        recyclerViewSenhas.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerViewSenhas,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(final View view, int position) {
+                        Senha senhaSelecionada = listaSenhas.get(position);
+                        view.setBackgroundResource(R.color.azulClaro);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle(senhaSelecionada.getTitulo());
+                        builder.setMessage("Login: " + senhaSelecionada.getLogin() +
+                                "\nSenha: " + senhaSelecionada.getSenha() +
+                                "\nObservação: " + senhaSelecionada.getObs());
+
+                        builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                view.setBackgroundResource(R.color.colorPrimaryDark);
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    }
+                }));
+
         FloatingActionButton fab = findViewById(R.id.fabNovo);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carregarListaSenhas(){
+        teste();
+
         recyclerViewSenhas.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSenhas.setHasFixedSize(true);
         senhaAdapter = new SenhaAdapter(listaSenhas, this);
@@ -106,5 +144,21 @@ public class MainActivity extends AppCompatActivity {
         autenticacao = ConfiguracaoFirebase.getReferenciaAutenticacao();
         searchView = findViewById(R.id.materialSearchView);
         recyclerViewSenhas = findViewById(R.id.recyclerViewSenhas);
+    }
+
+    private void teste(){
+        Senha senha1 = new Senha();
+        senha1.setTitulo("titulo senha1");
+        senha1.setLogin("login senha1");
+        senha1.setSenha("senha senha1");
+        senha1.setObs("observação senha1");
+        listaSenhas.add(senha1);
+
+        Senha senha2 = new Senha();
+        senha2.setTitulo("titulo senha2");
+        senha2.setLogin("login senha2");
+        senha2.setSenha("senha senha2");
+        senha2.setObs("observação senha2");
+        listaSenhas.add(senha2);
     }
 }

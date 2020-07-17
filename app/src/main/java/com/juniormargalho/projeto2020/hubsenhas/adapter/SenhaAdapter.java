@@ -35,7 +35,6 @@ public class SenhaAdapter extends RecyclerView.Adapter<SenhaAdapter.MyViewHolder
         Senha senha = listaSenhas.get(position);
         holder.titulo.setText(senha.getTitulo());
         holder.login.setText(senha.getLogin());
-        holder.senha.setText(senha.getSenha());
         holder.obs.setText(senha.getObs());
     }
 
@@ -45,14 +44,13 @@ public class SenhaAdapter extends RecyclerView.Adapter<SenhaAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView titulo, login, senha, obs;
+        TextView titulo, login, obs;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             titulo = itemView.findViewById(R.id.textSenhaAdapterTitulo);
             login = itemView.findViewById(R.id.textSenhaAdapterLogin);
-            senha = itemView.findViewById(R.id.textSenhaAdapterSenha);
             obs = itemView.findViewById(R.id.textSenhaAdapterObs);
         }
     }
