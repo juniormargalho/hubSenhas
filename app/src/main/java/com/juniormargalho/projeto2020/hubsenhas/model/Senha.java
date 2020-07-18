@@ -3,9 +3,27 @@ package com.juniormargalho.projeto2020.hubsenhas.model;
 import java.io.Serializable;
 
 public class Senha implements Serializable {
+    private long idSenha;
+    private String idUsuarioAutenticado;
     private String titulo, login, senha, obs;
 
     public Senha() {
+    }
+
+    public long getIdSenha() {
+        return idSenha;
+    }
+
+    public void setIdSenha(long idSenha) {
+        this.idSenha = idSenha;
+    }
+
+    public String getIdUsuarioAutenticado() {
+        return idUsuarioAutenticado;
+    }
+
+    public void setIdUsuarioAutenticado(String idUsuarioAutenticado) {
+        this.idUsuarioAutenticado = idUsuarioAutenticado;
     }
 
     public String getTitulo() {

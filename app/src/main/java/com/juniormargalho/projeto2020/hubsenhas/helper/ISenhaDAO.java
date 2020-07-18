@@ -9,5 +9,5 @@ public interface ISenhaDAO {
     public boolean salvar(Senha senha, String idUsuarioLogado);
     public boolean atualizar(Senha senha);
     public boolean deletar(Senha senha);
-    public List<Senha> listar();
+    public List<Senha> listar(String idUsuarioAutenticado);
 }

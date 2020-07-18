@@ -2,11 +2,13 @@ package com.juniormargalho.projeto2020.hubsenhas.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SenhaDAO implements ISenhaDAO {
@@ -49,7 +51,32 @@ public class SenhaDAO implements ISenhaDAO {
     }
 
     @Override
-    public List<Senha> listar() {
-        return null;
+    public List<Senha> listar(String idUsuarioAutenticado) {
+        List<Senha> senhas = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + SqLite.TABELA_SENHAS + " WHERE idUsuarioAutenticado = '" + idUsuarioAutenticado +"';";
+        Cursor cursor = read.rawQuery(sql, null);
+
+        while (cursor.moveToNext()){
+            Senha senhalistagem = new Senha();
+
+            Long id = cursor.getLong(cursor.getColumnIndex("idSenha"));
+            String titulo = cursor.getString(cursor.getColumnIndex("titulo"));
+            String login = cursor.getString(cursor.getColumnIndex("login"));
+            String senha = cursor.getString(cursor.getColumnIndex("senha"));
+            String obs = cursor.getString(cursor.getColumnIndex("obs"));
+
+            senhalistagem.setIdSenha(id);
+            senhalistagem.setIdUsuarioAutenticado(idUsuarioAutenticado);
+            senhalistagem.setTitulo(titulo);
+            senhalistagem.setLogin(login);
+            senhalistagem.setSenha(senha);
+            senhalistagem.setObs(obs);
+
+            senhas.add(senhalistagem);
+
+        }
+
+        return senhas;
     }
 }
