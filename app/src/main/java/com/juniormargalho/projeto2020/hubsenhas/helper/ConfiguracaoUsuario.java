@@ -11,14 +11,14 @@ public class ConfiguracaoUsuario {
         return autenticacao.getCurrentUser().getUid();
     }
 
-    public static FirebaseUser getUsuarioAtual(){
+    public static FirebaseUser getUsuarioAutenticado(){
         FirebaseAuth usuario = ConfiguracaoFirebase.getReferenciaAutenticacao();
         return usuario.getCurrentUser();
     }
 
     public static void setNomeProfile(String nome){
         try{
-            FirebaseUser usuarioAtual = getUsuarioAtual();
+            FirebaseUser usuarioAtual = getUsuarioAutenticado();
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(nome).build();
             usuarioAtual.updateProfile(profile);
         }catch (Exception e){

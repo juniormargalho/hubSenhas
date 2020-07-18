@@ -66,14 +66,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void abrirMainActivity(){
-        String usuarioAtual = ConfiguracaoUsuario.getUsuarioAtual().getDisplayName();
+        String usuarioAtual = ConfiguracaoUsuario.getUsuarioAutenticado().getDisplayName();
         Toast.makeText(LoginActivity.this, "Bem vindo(a), " + usuarioAtual, Toast.LENGTH_SHORT).show();
         finish();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
     private void verificaUsuarioLogado(){
-        FirebaseUser usuarioAtual = ConfiguracaoUsuario.getUsuarioAtual();
+        FirebaseUser usuarioAtual = ConfiguracaoUsuario.getUsuarioAutenticado();
 
         if(usuarioAtual != null){
             abrirMainActivity();

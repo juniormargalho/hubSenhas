@@ -15,16 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.juniormargalho.projeto2020.hubsenhas.R;
-import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 import com.juniormargalho.projeto2020.hubsenhas.helper.GeradorSenha;
+import com.juniormargalho.projeto2020.hubsenhas.helper.SenhaDAO;
 import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 
 public class NovaSenhaActivity extends AppCompatActivity {
     private EditText editNovaSenhaTitulo, editNovaSenhaLogin, editNovaSenhaSenha, editNovaSenhaObs;
     private RadioButton radioNovaSenha1, radioNovaSenha2, radioNovaSenha3, radioNovaSenha4, radioNovaSenha5;
     private Button buttonNovaSenhaGerar;
-    private String idUsuarioLogado;
+    private String idUsuarioAutenticado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +67,14 @@ public class NovaSenhaActivity extends AppCompatActivity {
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
-                    Senha novaSenha =new Senha();
-                    novaSenha.setIdUsuario(idUsuarioLogado);
+                    Senha novaSenha = new Senha();
                     novaSenha.setTitulo(titulo);
                     novaSenha.setLogin(login);
                     novaSenha.setSenha(senha);
-                    if( !obs.isEmpty() ){
-                        novaSenha.setObs(obs);
-                    }
-                    novaSenha.salvar();
+                    novaSenha.setObs(obs);
+
+                    SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
+                    senhaDAO.salvar(novaSenha, idUsuarioAutenticado);
                     Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
                     finish();
 
@@ -120,6 +119,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
         radioNovaSenha5 = findViewById(R.id.radioNovaSenha5);
         buttonNovaSenhaGerar = findViewById(R.id.buttonNovaSenhaGerar);
 
-        idUsuarioLogado = ConfiguracaoUsuario.getIdUsuarioAutenticado();
+        idUsuarioAutenticado = ConfiguracaoUsuario.getIdUsuarioAutenticado();
     }
 }
