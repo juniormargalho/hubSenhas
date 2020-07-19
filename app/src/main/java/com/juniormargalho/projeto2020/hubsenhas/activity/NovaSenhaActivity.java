@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.juniormargalho.projeto2020.hubsenhas.R;
+import com.juniormargalho.projeto2020.hubsenhas.helper.Base64Custom;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 import com.juniormargalho.projeto2020.hubsenhas.helper.GeradorSenha;
 import com.juniormargalho.projeto2020.hubsenhas.helper.SenhaDAO;
@@ -74,7 +75,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
                     novaSenha.setIdSenha(senhaEdicao.getIdSenha());
                     novaSenha.setTitulo(titulo);
                     novaSenha.setLogin(login);
-                    novaSenha.setSenha(senha);
+                    novaSenha.setSenha(Base64Custom.Code64(senha));
                     novaSenha.setObs(obs);
                     SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
 
@@ -109,7 +110,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
                     Senha novaSenha = new Senha();
                     novaSenha.setTitulo(titulo);
                     novaSenha.setLogin(login);
-                    novaSenha.setSenha(senha);
+                    novaSenha.setSenha(Base64Custom.Code64(senha));
                     novaSenha.setObs(obs);
                     SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
 
@@ -137,7 +138,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
         if(senhaEdicao != null){
             editNovaSenhaTitulo.setText(senhaEdicao.getTitulo());
             editNovaSenhaLogin.setText(senhaEdicao.getLogin());
-            editNovaSenhaSenha.setText(senhaEdicao.getSenha());
+            editNovaSenhaSenha.setText(Base64Custom.Decode64(senhaEdicao.getSenha()));
             editNovaSenhaObs.setText(senhaEdicao.getObs());
         }
     }

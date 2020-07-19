@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.adapter.SenhaAdapter;
+import com.juniormargalho.projeto2020.hubsenhas.helper.Base64Custom;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 import com.juniormargalho.projeto2020.hubsenhas.helper.RecyclerItemClickListener;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setTitle(senhaSelecionada.getTitulo());
                         builder.setMessage("Login: " + senhaSelecionada.getLogin() +
-                                "\nSenha: " + senhaSelecionada.getSenha() +
+                                "\nSenha: " + Base64Custom.Decode64(senhaSelecionada.getSenha()) +
                                 "\nObservação: " + senhaSelecionada.getObs());
 
                         builder.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         builder.setTitle("Excluir senha selecionada?");
                         builder.setMessage("Titulo: " + senhaSelecionada.getTitulo() +
                                 "\nLogin: " + senhaSelecionada.getLogin() +
-                                "\nSenha: " + senhaSelecionada.getSenha() +
+                                "\nSenha: " + Base64Custom.Decode64(senhaSelecionada.getSenha()) +
                                 "\nObservação: " + senhaSelecionada.getObs());
 
                         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
