@@ -53,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
 
         inicializar();
 
+        //SearchView
+        searchView.setHint("Pesquisar");
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                pesquisarSenhas(newText);
+                return true;
+            }
+        });
+
         recyclerViewSenhas.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerViewSenhas,
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -140,6 +155,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, NovaSenhaActivity.class));
             }
         });
+    }
+
+    private void pesquisarSenhas(String pesquisa){
+        listaSenhas.clear();
+        SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
+        listaSenhas = senhaDAO.pesquisar(idUsuarioAutenticado, pesquisa);
+
+        recyclerViewSenhas.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSenhas.setHasFixedSize(true);
+        senhaAdapter = new SenhaAdapter(listaSenhas, this);
+        recyclerViewSenhas.setAdapter(senhaAdapter);
     }
 
     @Override

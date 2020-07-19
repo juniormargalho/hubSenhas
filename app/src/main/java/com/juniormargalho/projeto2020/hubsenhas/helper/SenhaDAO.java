@@ -84,23 +84,38 @@ public class SenhaDAO implements ISenhaDAO {
         while (cursor.moveToNext()){
             Senha senhalistagem = new Senha();
 
-            Long id = cursor.getLong(cursor.getColumnIndex("idSenha"));
-            String titulo = cursor.getString(cursor.getColumnIndex("titulo"));
-            String login = cursor.getString(cursor.getColumnIndex("login"));
-            String senha = cursor.getString(cursor.getColumnIndex("senha"));
-            String obs = cursor.getString(cursor.getColumnIndex("obs"));
-
-            senhalistagem.setIdSenha(id);
+            senhalistagem.setIdSenha(cursor.getLong(cursor.getColumnIndex("idSenha")));
             senhalistagem.setIdUsuarioAutenticado(idUsuarioAutenticado);
-            senhalistagem.setTitulo(titulo);
-            senhalistagem.setLogin(login);
-            senhalistagem.setSenha(senha);
-            senhalistagem.setObs(obs);
+            senhalistagem.setTitulo(cursor.getString(cursor.getColumnIndex("titulo")));
+            senhalistagem.setLogin(cursor.getString(cursor.getColumnIndex("login")));
+            senhalistagem.setSenha(cursor.getString(cursor.getColumnIndex("senha")));
+            senhalistagem.setObs(cursor.getString(cursor.getColumnIndex("obs")));
 
             senhas.add(senhalistagem);
-
         }
+        return senhas;
+    }
 
+    @Override
+    public List<Senha> pesquisar(String idUsuarioAutenticado, String pesquisa) {
+        List<Senha> senhas = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + SqLite.TABELA_SENHAS + " WHERE idUsuarioAutenticado = '" + idUsuarioAutenticado + "' " +
+                "AND titulo LIKE '%" + pesquisa + "%';";
+        Cursor cursor = read.rawQuery(sql, null);
+
+        while (cursor.moveToNext()){
+            Senha senhalistagem = new Senha();
+
+            senhalistagem.setIdSenha(cursor.getLong(cursor.getColumnIndex("idSenha")));
+            senhalistagem.setIdUsuarioAutenticado(idUsuarioAutenticado);
+            senhalistagem.setTitulo(cursor.getString(cursor.getColumnIndex("titulo")));
+            senhalistagem.setLogin(cursor.getString(cursor.getColumnIndex("login")));
+            senhalistagem.setSenha(cursor.getString(cursor.getColumnIndex("senha")));
+            senhalistagem.setObs(cursor.getString(cursor.getColumnIndex("obs")));
+
+            senhas.add(senhalistagem);
+        }
         return senhas;
     }
 }

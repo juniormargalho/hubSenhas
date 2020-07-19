@@ -10,4 +10,5 @@ public interface ISenhaDAO {
     public boolean editar(Senha senha, String idUsuarioAutenticado);
     public boolean excluir(Senha senha, String idUsuarioAutenticado);
     public List<Senha> listar(String idUsuarioAutenticado);
+    public List<Senha> pesquisar(String idUsuarioAutenticado, String pesquisa);
 }
