@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewSenhas.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerViewSenhas,
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(final View view, int position) {
+                    public void onItemClick(final View view, final int position) {
                         Senha senhaSelecionada = listaSenhas.get(position);
                         view.setBackgroundResource(R.color.azulClaro);
 
@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
                         builder.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                Senha senhaSelecionada = listaSenhas.get(position);
+                                Intent i = new Intent(MainActivity.this, NovaSenhaActivity.class);
+                                i.putExtra("senhaSelecionada", senhaSelecionada);
+                                startActivity(i);
+
                                 view.setBackgroundResource(R.color.colorPrimaryDark);
                             }
                         });
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carregarListaSenhas(){
+        listaSenhas.clear();
         SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
         listaSenhas = senhaDAO.listar(idUsuarioAutenticado);
 

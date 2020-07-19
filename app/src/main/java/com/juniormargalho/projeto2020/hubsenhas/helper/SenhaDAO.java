@@ -41,8 +41,23 @@ public class SenhaDAO implements ISenhaDAO {
     }
 
     @Override
-    public boolean atualizar(Senha senha) {
-        return false;
+    public boolean editar(Senha senha, String idUsuarioAutenticado) {
+        ContentValues cv = new ContentValues();
+        cv.put("idUsuarioAutenticado", idUsuarioAutenticado);
+        cv.put("titulo", senha.getTitulo());
+        cv.put("login", senha.getLogin());
+        cv.put("senha", senha.getSenha());
+        cv.put("obs", senha.getObs());
+
+        try{
+            String[] args = {String.valueOf(senha.getIdSenha()), idUsuarioAutenticado};
+            write.update(SqLite.TABELA_SENHAS, cv, "idSenha=? AND idUsuarioAutenticado=?", args);
+            Log.i("INFO_DB", "Senha editada com sucesso!");
+        }catch (Exception e){
+            Log.i("INFO_DB", "Erro ao editar senha!" + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override

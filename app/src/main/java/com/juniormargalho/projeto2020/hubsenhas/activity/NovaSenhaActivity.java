@@ -25,6 +25,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
     private RadioButton radioNovaSenha1, radioNovaSenha2, radioNovaSenha3, radioNovaSenha4, radioNovaSenha5;
     private Button buttonNovaSenhaGerar;
     private String idUsuarioAutenticado;
+    private Senha senhaEdicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class NovaSenhaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         inicializar();
+
+        preecherCamposEditar();
 
         buttonNovaSenhaGerar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +60,42 @@ public class NovaSenhaActivity extends AppCompatActivity {
         });
     }
 
+    private void editar(){
+        String titulo = editNovaSenhaTitulo.getText().toString();
+        String login = editNovaSenhaLogin.getText().toString();
+        String senha = editNovaSenhaSenha.getText().toString();
+        String obs = editNovaSenhaObs.getText().toString();
+
+        if( !titulo.isEmpty() ){
+            if( !login.isEmpty() ){
+                if( !senha.isEmpty() ){
+
+                    Senha novaSenha = new Senha();
+                    novaSenha.setIdSenha(senhaEdicao.getIdSenha());
+                    novaSenha.setTitulo(titulo);
+                    novaSenha.setLogin(login);
+                    novaSenha.setSenha(senha);
+                    novaSenha.setObs(obs);
+                    SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
+
+                    if(senhaDAO.editar(novaSenha, idUsuarioAutenticado)){
+                        Toast.makeText(NovaSenhaActivity.this, "Senha editada com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else {
+                        Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar editar!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else {
+                    Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(NovaSenhaActivity.this, "Preencha o login, por favor!", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(NovaSenhaActivity.this, "Preencha o titulo, por favor!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void salvar(){
         String titulo = editNovaSenhaTitulo.getText().toString();
         String login = editNovaSenhaLogin.getText().toString();
@@ -72,11 +111,14 @@ public class NovaSenhaActivity extends AppCompatActivity {
                     novaSenha.setLogin(login);
                     novaSenha.setSenha(senha);
                     novaSenha.setObs(obs);
-
                     SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
-                    senhaDAO.salvar(novaSenha, idUsuarioAutenticado);
-                    Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    if(senhaDAO.salvar(novaSenha, idUsuarioAutenticado)){
+                        Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else {
+                        Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar salvar!", Toast.LENGTH_SHORT).show();
+                    }
 
                 }else {
                     Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
@@ -89,12 +131,28 @@ public class NovaSenhaActivity extends AppCompatActivity {
         }
     }
 
+    private void preecherCamposEditar(){
+        senhaEdicao = (Senha) getIntent().getSerializableExtra("senhaSelecionada");
+
+        if(senhaEdicao != null){
+            editNovaSenhaTitulo.setText(senhaEdicao.getTitulo());
+            editNovaSenhaLogin.setText(senhaEdicao.getLogin());
+            editNovaSenhaSenha.setText(senhaEdicao.getSenha());
+            editNovaSenhaObs.setText(senhaEdicao.getObs());
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
             case R.id.menuSalvar :
-                salvar();
+
+                if( senhaEdicao != null){
+                    editar();
+                }else {
+                    salvar();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
