@@ -61,8 +61,17 @@ public class SenhaDAO implements ISenhaDAO {
     }
 
     @Override
-    public boolean deletar(Senha senha) {
-        return false;
+    public boolean excluir(Senha senha, String idUsuarioAutenticado) {
+
+        try{
+            String[] args = {String.valueOf(senha.getIdSenha()), idUsuarioAutenticado};
+            write.delete(SqLite.TABELA_SENHAS, "idSenha=? AND idUsuarioAutenticado=?", args);
+            Log.i("INFO_DB", "Senha excluida com sucesso!");
+        }catch (Exception e){
+            Log.i("INFO_DB", "Erro ao excluir senha!" + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override

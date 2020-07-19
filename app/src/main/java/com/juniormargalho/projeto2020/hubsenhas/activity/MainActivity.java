@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.juniormargalho.projeto2020.hubsenhas.R;
@@ -90,7 +91,41 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onLongItemClick(View view, int position) {
+                    public void onLongItemClick(final View view, final int position) {
+                        final Senha senhaSelecionada = listaSenhas.get(position);
+                        view.setBackgroundResource(R.color.azulClaro);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("Excluir senha selecionada?");
+                        builder.setMessage("Titulo: " + senhaSelecionada.getTitulo() +
+                                "\nLogin: " + senhaSelecionada.getLogin() +
+                                "\nSenha: " + senhaSelecionada.getSenha() +
+                                "\nObservação: " + senhaSelecionada.getObs());
+
+                        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Senha senhaSelecionada = listaSenhas.get(position);
+                                SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
+                                if(senhaDAO.excluir(senhaSelecionada, idUsuarioAutenticado)){
+                                    carregarListaSenhas();
+                                    Toast.makeText(MainActivity.this, "Senha excluída com sucesso!", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(MainActivity.this, "Erro ao tentar excluir!", Toast.LENGTH_SHORT).show();
+                                }
+                                view.setBackgroundResource(R.color.colorPrimaryDark);
+                            }
+                        });
+
+                        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                view.setBackgroundResource(R.color.colorPrimaryDark);
+                            }
+                        });
+                        builder.setCancelable(false);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
 
                     @Override

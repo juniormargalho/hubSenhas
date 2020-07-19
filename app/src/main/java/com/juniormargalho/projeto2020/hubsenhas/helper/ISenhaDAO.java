@@ -8,6 +8,6 @@ public interface ISenhaDAO {
 
     public boolean salvar(Senha senha, String idUsuarioLogado);
     public boolean editar(Senha senha, String idUsuarioAutenticado);
-    public boolean deletar(Senha senha);
+    public boolean excluir(Senha senha, String idUsuarioAutenticado);
     public List<Senha> listar(String idUsuarioAutenticado);
 }
