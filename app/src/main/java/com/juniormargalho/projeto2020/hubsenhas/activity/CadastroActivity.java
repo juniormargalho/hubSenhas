@@ -4,15 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,9 +24,12 @@ import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 
+import dmax.dialog.SpotsDialog;
+
 public class CadastroActivity extends AppCompatActivity {
     private EditText editCadastroNome, editCadastroEmail, editCadastroEmailConfirmar, editCadastroSenha, editCadastroSenhaConfirmar;
     private FirebaseAuth autenticacao;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,16 @@ public class CadastroActivity extends AppCompatActivity {
                             if( !confirmarSenha.isEmpty()){
                                 if( senha.equals(confirmarSenha)){
 
+                                    dialog = new SpotsDialog.Builder().setContext(CadastroActivity.this).setMessage("Cadastrando novo usuário!").setCancelable(false).build();
+                                    dialog.show();
+
                                     autenticacao.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if(task.isSuccessful()){
                                                 ConfiguracaoUsuario.setNomeProfile(nome);
                                                 Toast.makeText(CadastroActivity.this, "Bem vindo(a), " + nome, Toast.LENGTH_SHORT).show();
+                                                dialog.dismiss();
                                                 finish();
                                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                             }else {

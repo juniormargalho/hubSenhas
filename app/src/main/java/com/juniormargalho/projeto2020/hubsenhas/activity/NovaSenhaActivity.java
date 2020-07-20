@@ -1,5 +1,6 @@
 package com.juniormargalho.projeto2020.hubsenhas.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,12 +22,15 @@ import com.juniormargalho.projeto2020.hubsenhas.helper.GeradorSenha;
 import com.juniormargalho.projeto2020.hubsenhas.helper.SenhaDAO;
 import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 
+import dmax.dialog.SpotsDialog;
+
 public class NovaSenhaActivity extends AppCompatActivity {
     private EditText editNovaSenhaTitulo, editNovaSenhaLogin, editNovaSenhaSenha, editNovaSenhaObs;
     private RadioButton radioNovaSenha1, radioNovaSenha2, radioNovaSenha3, radioNovaSenha4, radioNovaSenha5;
     private Button buttonNovaSenhaGerar;
     private String idUsuarioAutenticado;
     private Senha senhaEdicao;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,9 @@ public class NovaSenhaActivity extends AppCompatActivity {
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
+                    dialog = new SpotsDialog.Builder().setContext(NovaSenhaActivity.this).setMessage("Salvando!").setCancelable(false).build();
+                    dialog.show();
+
                     Senha novaSenha = new Senha();
                     novaSenha.setIdSenha(senhaEdicao.getIdSenha());
                     novaSenha.setTitulo(titulo);
@@ -81,6 +88,7 @@ public class NovaSenhaActivity extends AppCompatActivity {
 
                     if(senhaDAO.editar(novaSenha, idUsuarioAutenticado)){
                         Toast.makeText(NovaSenhaActivity.this, "Senha editada com sucesso!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                         finish();
                     }else {
                         Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar editar!", Toast.LENGTH_SHORT).show();
@@ -107,6 +115,9 @@ public class NovaSenhaActivity extends AppCompatActivity {
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
+                    dialog = new SpotsDialog.Builder().setContext(NovaSenhaActivity.this).setMessage("Salvando!").setCancelable(false).build();
+                    dialog.show();
+
                     Senha novaSenha = new Senha();
                     novaSenha.setTitulo(titulo);
                     novaSenha.setLogin(login);
@@ -116,11 +127,11 @@ public class NovaSenhaActivity extends AppCompatActivity {
 
                     if(senhaDAO.salvar(novaSenha, idUsuarioAutenticado)){
                         Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                         finish();
                     }else {
                         Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar salvar!", Toast.LENGTH_SHORT).show();
                     }
-
                 }else {
                     Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
                 }

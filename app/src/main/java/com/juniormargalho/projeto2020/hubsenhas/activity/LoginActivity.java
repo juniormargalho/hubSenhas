@@ -3,6 +3,7 @@ package com.juniormargalho.projeto2020.hubsenhas.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,11 +21,14 @@ import com.juniormargalho.projeto2020.hubsenhas.R;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoFirebase;
 import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 
+import dmax.dialog.SpotsDialog;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText editLoginEmail, editLoginSenha;
     private Button buttonLoginEntrar;
     private TextView textLoginCadastrese;
     private FirebaseAuth autenticacao;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +48,14 @@ public class LoginActivity extends AppCompatActivity {
                 if( !email.isEmpty()){
                     if( !senha.isEmpty()){
 
+                        dialog = new SpotsDialog.Builder().setContext(LoginActivity.this).setMessage("Carregando!").setCancelable(false).build();
+                        dialog.show();
+
                         autenticacao.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
+                                    dialog.dismiss();
                                     abrirMainActivity();
                                 }else {
                                     Toast.makeText(LoginActivity.this, "Erro ao fazer login: " + task.getException(), Toast.LENGTH_SHORT).show();
