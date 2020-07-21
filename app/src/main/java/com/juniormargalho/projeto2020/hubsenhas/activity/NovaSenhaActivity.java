@@ -93,7 +93,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar editar!", Toast.LENGTH_SHORT).show();
                     }
-
                 }else {
                     Toast.makeText(NovaSenhaActivity.this, "Preencha ou gere a senha, por favor!", Toast.LENGTH_SHORT).show();
                 }

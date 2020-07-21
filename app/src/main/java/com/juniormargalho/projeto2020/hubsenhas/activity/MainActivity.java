@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.menuConfiguracoes :
-
+                startActivity(new Intent(MainActivity.this, ConfiguracoesActivity.class));
                 break;
             case R.id.menuSair :
                 deslogarUsuario();
