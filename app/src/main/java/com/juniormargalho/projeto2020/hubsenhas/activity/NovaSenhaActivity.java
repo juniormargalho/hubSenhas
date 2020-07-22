@@ -30,7 +30,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
     private Button buttonNovaSenhaGerar;
     private String idUsuarioAutenticado;
     private Senha senhaEdicao;
-    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +74,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
-                    dialog = new SpotsDialog.Builder().setContext(NovaSenhaActivity.this).setMessage("Salvando!").setCancelable(false).build();
-                    dialog.show();
-
                     Senha novaSenha = new Senha();
                     novaSenha.setIdSenha(senhaEdicao.getIdSenha());
                     novaSenha.setTitulo(titulo);
@@ -88,7 +84,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
 
                     if(senhaDAO.editar(novaSenha, idUsuarioAutenticado)){
                         Toast.makeText(NovaSenhaActivity.this, "Senha editada com sucesso!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
                         finish();
                     }else {
                         Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar editar!", Toast.LENGTH_SHORT).show();
@@ -114,9 +109,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
             if( !login.isEmpty() ){
                 if( !senha.isEmpty() ){
 
-                    dialog = new SpotsDialog.Builder().setContext(NovaSenhaActivity.this).setMessage("Salvando!").setCancelable(false).build();
-                    dialog.show();
-
                     Senha novaSenha = new Senha();
                     novaSenha.setTitulo(titulo);
                     novaSenha.setLogin(login);
@@ -126,7 +118,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
 
                     if(senhaDAO.salvar(novaSenha, idUsuarioAutenticado)){
                         Toast.makeText(NovaSenhaActivity.this, "Nova senha adicionada!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
                         finish();
                     }else {
                         Toast.makeText(NovaSenhaActivity.this, "Erro ao tentar salvar!", Toast.LENGTH_SHORT).show();

@@ -86,6 +86,7 @@ public class CadastroActivity extends AppCompatActivity {
                                                     erroExcecao = "Erro ao cadastrar usuário: "  + e.getMessage();
                                                     e.printStackTrace();
                                                 }
+                                                dialog.dismiss();
                                                 Toast.makeText(CadastroActivity.this, erroExcecao , Toast.LENGTH_SHORT).show();
                                             }
                                         }

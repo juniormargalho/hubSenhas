@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.dismiss();
                                     abrirMainActivity();
                                 }else {
+                                    dialog.dismiss();
                                     Toast.makeText(LoginActivity.this, "Erro ao fazer login: " + task.getException(), Toast.LENGTH_SHORT).show();
                                 }
                             }
