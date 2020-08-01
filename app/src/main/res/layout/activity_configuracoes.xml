@@ -51,14 +51,15 @@
                 android:theme="@style/botaoPadrao"
                 android:padding="16dp"
                 android:text="Alterar senha" />
+
             <Button
                 android:id="@+id/buttonConfiguracoesBackup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:theme="@style/botaoPadrao"
                 android:padding="16dp"
-                android:text="Backup" />
+                android:text="Backup via e-mail"
+                android:theme="@style/botaoPadrao" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

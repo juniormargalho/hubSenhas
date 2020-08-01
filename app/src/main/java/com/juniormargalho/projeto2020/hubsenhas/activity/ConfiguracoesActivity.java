@@ -3,20 +3,12 @@ package com.juniormargalho.projeto2020.hubsenhas.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,18 +27,16 @@ import com.juniormargalho.projeto2020.hubsenhas.helper.ConfiguracaoUsuario;
 import com.juniormargalho.projeto2020.hubsenhas.helper.SenhaDAO;
 import com.juniormargalho.projeto2020.hubsenhas.model.Senha;
 
-import org.json.simple.JSONObject;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import dmax.dialog.SpotsDialog;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
     private Button buttonConfiguracoesAlterarNome, buttonConfiguracoesAlterarSenha, buttonConfiguracoesBackup;
     private FirebaseUser usuarioAutenticado;
     private List<Senha> listaSenhas = new ArrayList<>();
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,14 +227,10 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-
-                                    if(Build.VERSION.SDK_INT >= 23){
-                                        if(ContextCompat.checkSelfPermission(ConfiguracoesActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                                            enviarEmailBackup();
-                                        }else {
-                                            ActivityCompat.requestPermissions(ConfiguracoesActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                                        }
-                                    }
+                                    dialog = new SpotsDialog.Builder().setContext(ConfiguracoesActivity.this).setMessage("Criando e-mail de backup!").setCancelable(false).build();
+                                    dialog.show();
+                                    enviarEmailBackup();
+                                    dialog.dismiss();
                                 }else {
                                     Toast.makeText(ConfiguracoesActivity.this, "E-mail ou senha inválidos, verifique, por favor!", Toast.LENGTH_SHORT).show();
                                 }
@@ -267,21 +253,15 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("vnd.android.cursor.dir/email");
         i.putExtra(Intent.EXTRA_SUBJECT, "Backup de senhas");
-
-        FileWriter file = gerarJson(ConfiguracaoUsuario.getIdUsuarioAutenticado());
         i.putExtra(Intent.EXTRA_TEXT, gerarCorpoEmail(usuarioAutenticado.getUid()));
-
-        //i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///data/user/0/com.juniormargalho.projeto2020.hubsenhas/files/backup.json"));
-
         i.putExtra(Intent.EXTRA_EMAIL, new String[]{ConfiguracaoUsuario.getUsuarioAutenticado().getEmail()});
-        startActivity(Intent.createChooser(i, "Enviando e-mail..."));
+        startActivity(Intent.createChooser(i, "Enviando e-mail!"));
     }
 
     private String gerarCorpoEmail(String idUsuarioAutenticado){
         listaSenhas.clear();
         SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
         listaSenhas = senhaDAO.listar(idUsuarioAutenticado);
-
         StringBuilder senhas = new StringBuilder();
 
         for(int i=0; i < listaSenhas.size(); i++){
@@ -289,45 +269,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             senhas.append("login: ").append(listaSenhas.get(i).getLogin() + "\n");
             senhas.append("senha: ").append(Base64Custom.Decode64(listaSenhas.get(i).getSenha()) + "\n");
             senhas.append("obs: ").append(listaSenhas.get(i).getObs() + "\n\n");
-
         }
         return senhas.toString();
-    }
-
-    private FileWriter gerarJson(String idUsuarioAutenticado){
-        listaSenhas.clear();
-        SenhaDAO senhaDAO = new SenhaDAO(getApplicationContext());
-        listaSenhas = senhaDAO.listar(idUsuarioAutenticado);
-        FileWriter writeFile = null;
-
-        try {
-            JSONObject jsonObject = new JSONObject();
-
-            for(int i=0; i < listaSenhas.size(); i++){
-                JSONObject aux = new JSONObject();
-                aux.put("tituto", listaSenhas.get(i).getTitulo());
-                aux.put("login", listaSenhas.get(i).getLogin());
-                aux.put("senha", Base64Custom.Decode64(listaSenhas.get(i).getSenha()));
-                aux.put("obs", listaSenhas.get(i).getObs());
-
-                jsonObject.put("senhas", aux);
-            }
-            Log.i("log_json", "json criado");
-
-            writeFile = new FileWriter( getFilesDir() + "/backup.json");
-            writeFile.write(jsonObject.toJSONString());
-            writeFile.close();
-            Log.i("log_json", "arquivo criado: " + getFilesDir() + "/backup.json");
-            return writeFile;
-        } catch (IOException e){
-            e.printStackTrace();
-            Log.i("log_json", "IOException: " + e.getMessage());
-            return writeFile;
-        } catch (Exception e){
-            e.printStackTrace();
-            Log.i("log_json", "Exception: " + e.getMessage());
-            return writeFile;
-        }
     }
 
     private void inicializar(){
