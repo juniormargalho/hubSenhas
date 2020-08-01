@@ -43,4 +43,6 @@ dependencies {
     implementation 'commons-lang:commons-lang:2.6'
 
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
 }
